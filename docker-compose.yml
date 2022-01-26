@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+    webapp:
+        build:
+            context: .
+            dockerfile: BacklogApp/Dockerfile
+        environment:
+            ConnectionStrings__MongoDB: "mongodb://root:somePassword@mongodb:27017/backlogapp?authSource=admin"
+            ASPNETCORE_ENVIRONMENT: Production
+            CORS_DOMAIN: http://localhost
+            DISABLE_SPA: true
+        ports:
+            - 5000:80
+        depends_on:
+            - mongodb
+        restart: unless-stopped
+    clientapp:
+        build:
+            context: .
+            dockerfile: clientapp/Dockerfile
+        environment:
+            NODE_ENV: production
+        ports:
+            - 80:80
+        depends_on:
+            - webapp
+        restart: unless-stopped
+    mongodb:
+        image: mongo
+        restart: unless-stopped
+        volumes:
+            - mongodata:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: somePassword
+    mongo-express:
+        image: mongo-express
+        restart: unless-stopped
+        ports:
+          - 8081:8081
+        environment:
+          ME_CONFIG_MONGODB_ADMINUSERNAME: root
+          ME_CONFIG_MONGODB_ADMINPASSWORD: somePassword
+          ME_CONFIG_MONGODB_URL: mongodb://root:somePassword@mongodb:27017/
+
+volumes:
+    mongodata:

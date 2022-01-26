@@ -1,0 +1,9 @@
+export const ROUTE_HOME = 'Home';
+export const ROUTE_LOGIN = 'Login';
+export const ROUTE_REGISTER = 'Register';
+export const ROUTE_LOGIN_REGISTER = 'LoginWithRegisterInfo';
+export const ROUTE_PROJECTS_LIST = 'ProjectsList';
+export const ROUTE_PROJECT = 'Project';
+export const ROUTE_TASKS_LIST = 'TasksList';
+export const ROUTE_TASK = 'Task';
+export const ROUTE_PROFILE = 'Profile';
